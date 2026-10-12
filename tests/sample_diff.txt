@@ -1,0 +1,39 @@
+diff --git a/app/auth.py b/app/auth.py
+index 3f2a1b4..9c8d7e6 100644
+--- a/app/auth.py
++++ b/app/auth.py
+@@ -1,7 +1,33 @@
+ import sqlite3
++import hashlib
+
++DB_PASSWORD = "SuperSecret123!"
++API_TOKEN = "tok_demo_not_a_real_secret"
++
+
+ def get_user(conn, username):
+     cur = conn.cursor()
+-    cur.execute("SELECT * FROM users WHERE name = ?", (username,))
++    query = "SELECT * FROM users WHERE name = '" + username + "'"
++    cur.execute(query)
+     return cur.fetchone()
++
++
++def hash_password(pw):
++    return hashlib.md5(pw.encode()).hexdigest()
++
++
++def find_duplicates(items):
++    d = []
++    for i in range(len(items)):
++        for j in range(len(items)):
++            if i != j and items[i] == items[j] and items[i] not in d:
++                d.append(items[i])
++    return d
++
++
++def f(x, y, z):
++    if x == True:
++        if y == True:
++            if z == True:
++                return 1
++    return 0
